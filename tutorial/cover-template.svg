@@ -1,0 +1,76 @@
+<svg width="400" height="225" viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F0F23;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1A1A2E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213E;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="coinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFD600;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#0099CC;stop-opacity:0.6" />
+    </linearGradient>
+    
+    <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#A855F7;stop-opacity:0.5" />
+    </linearGradient>
+    
+    <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:0.4" />
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="225" fill="url(#bgGradient)"/>
+  
+  <!-- Abstract geometric shapes -->
+  <circle cx="80" cy="60" r="25" fill="url(#accentGradient)" opacity="0.6" filter="url(#glow)"/>
+  <circle cx="320" cy="80" r="20" fill="url(#purpleGradient)" opacity="0.5" filter="url(#glow)"/>
+  <circle cx="350" cy="180" r="30" fill="url(#greenGradient)" opacity="0.4" filter="url(#glow)"/>
+  
+  <!-- Floating geometric elements -->
+  <rect x="50" y="150" width="40" height="40" rx="8" fill="url(#accentGradient)" opacity="0.3" transform="rotate(45 70 170)"/>
+  <rect x="300" y="40" width="25" height="25" rx="4" fill="url(#purpleGradient)" opacity="0.4" transform="rotate(30 312.5 52.5)"/>
+  
+  <!-- Central coin logo -->
+  <g transform="translate(200, 112.5)">
+    <!-- Coin shadow -->
+    <circle cx="3" cy="3" r="35" fill="#000000" opacity="0.3"/>
+    <!-- Main coin -->
+    <circle cx="0" cy="0" r="35" fill="url(#coinGradient)" stroke="#000000" stroke-width="3"/>
+    <!-- Inner circle for depth -->
+    <circle cx="0" cy="0" r="28" fill="none" stroke="#000000" stroke-width="1" opacity="0.3"/>
+    <!-- Letter C -->
+    <text x="0" y="8" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#000000" text-anchor="middle">C</text>
+    <!-- Coin highlight -->
+    <ellipse cx="-8" cy="-12" rx="12" ry="8" fill="#FFFFFF" opacity="0.4"/>
+  </g>
+  
+  <!-- Decorative lines -->
+  <line x1="0" y1="50" x2="100" y2="50" stroke="url(#accentGradient)" stroke-width="2" opacity="0.6"/>
+  <line x1="300" y1="175" x2="400" y2="175" stroke="url(#purpleGradient)" stroke-width="2" opacity="0.5"/>
+  
+  <!-- Floating particles -->
+  <circle cx="120" cy="30" r="2" fill="#00D4FF" opacity="0.8"/>
+  <circle cx="280" cy="200" r="1.5" fill="#8B5CF6" opacity="0.7"/>
+  <circle cx="60" cy="200" r="2.5" fill="#10B981" opacity="0.6"/>
+  <circle cx="340" cy="30" r="1" fill="#FFD600" opacity="0.9"/>
+  <circle cx="150" cy="190" r="1.5" fill="#00D4FF" opacity="0.5"/>
+</svg>
