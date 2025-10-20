@@ -1,14 +1,15 @@
-import StaticTutorialImage from './StaticTutorialImage'
+import SmartTutorialImage from './SmartTutorialImage'
 
 /**
  * TutorialImage Component
  * 
  * Features:
- * - Uses specific image URLs provided by user
+ * - Multiple fallback image sources (Picsum, Unsplash)
  * - Consistent layout ratio across all tutorial cards
  * - Proper image fitting with object-fit: cover
- * - Error handling with fallback
- * - Loading states
+ * - Robust error handling with multiple fallbacks
+ * - Loading states with spinner
+ * - Auto-generates relevant images for any topic
  * 
  * @component
  * @param {Object} props - Component props
@@ -25,7 +26,7 @@ function TutorialImage({
   alt = 'Tutorial concept illustration' 
 }) {
   return (
-    <StaticTutorialImage 
+    <SmartTutorialImage 
       title={title}
       size={size}
       alt={alt}

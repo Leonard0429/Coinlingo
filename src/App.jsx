@@ -1,8 +1,10 @@
 import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import reactLogo from './assets/react.svg'
-import { Lock, Unlock, BookOpen, Blocks, Newspaper, Trophy, ArrowRight } from 'lucide-react'
+import { Lock, Unlock, BookOpen, Blocks, Newspaper, Trophy, ArrowRight, Flame, Zap } from 'lucide-react'
 import { StoreProvider, useStore } from './context/Store.jsx'
+import { LanguageProvider, useLanguage } from './context/LanguageContext.jsx'
 import { TOPIC_CONTENT } from './store.js'
 import CryptoDashboard from './components/CryptoDashboard.jsx'
 import NewsFeed from './components/NewsFeed.jsx'
@@ -10,11 +12,14 @@ import About from './components/About.jsx'
 import Logo from './components/Logo.jsx'
 import CryptoImage from './components/CryptoImage.jsx'
 import TutorialImage from './components/TutorialImage.jsx'
+import LanguageSelector from './components/LanguageSelector.jsx'
+import EnhancedLearningCard from './components/EnhancedLearningCard.jsx'
 import './App.css'
 
 
 function Layout({ children }) {
-  const { balance, notifications, streak, achievements, resetProgress, getLastSavedTime, restoreFromBackup } = useStore()
+  const { balance, notifications, streak, streakMultiplier, achievements, resetProgress, getLastSavedTime, restoreFromBackup } = useStore()
+  const { t } = useLanguage()
   const [lastSaved, setLastSaved] = useState(null)
   
   // Update last saved time every 5 seconds
@@ -28,314 +33,68 @@ function Layout({ children }) {
     return () => clearInterval(interval)
   }, [getLastSavedTime])
   return (
-    <div>
-      {/* Enhanced Header */}
-      <div className="card" style={{ 
-        marginBottom: 16, 
-        backgroundColor: '#000000', 
-        border: '2px solid #fbbf24',
-        padding: '20px 24px'
-      }}>
-        {/* Top Row - Logo and Navigation */}
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between',
-          marginBottom: 16
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 12,
-              padding: '8px 16px',
-              backgroundColor: '#1a1a1a',
-              borderRadius: 12,
-              border: '1px solid #fbbf24'
-            }}>
-              <div style={{ 
-                width: 32, 
-                height: 32, 
-                backgroundColor: '#fbbf24', 
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: '#000000'
-              }}>
-                ₿
-              </div>
-              <h1 style={{ margin: 0, color: '#fbbf24', fontSize: 24, fontWeight: 'bold' }}>
-                CoinLingo
-              </h1>
+    <div className="unified-layout">
+      {/* Unified Dashboard Container */}
+      <div className="dashboard-container">
+        {/* Header Section */}
+        <header className="dashboard-header">
+          {/* Top Row - Logo and Navigation */}
+          <div className="header-top">
+            <div className="logo-section">
+              <div className="logo-icon">₿</div>
+              <h1 className="logo-text">CoinLingo</h1>
             </div>
-            <Link 
-              to="/" 
-              style={{ 
-                fontSize: 14, 
-                color: '#ffffff', 
-                textDecoration: 'none',
-                padding: '6px 12px',
-                backgroundColor: '#1a1a1a',
-                borderRadius: 8,
-                border: '1px solid #fbbf24',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#fbbf24'
-                e.target.style.color = '#000000'
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = '#1a1a1a'
-                e.target.style.color = '#ffffff'
-              }}
-            >
-              🏠 Home
-            </Link>
-            <Link 
-              to="/crypto" 
-              style={{ 
-                fontSize: 14, 
-                color: '#ffffff', 
-                textDecoration: 'none',
-                padding: '6px 12px',
-                backgroundColor: '#1a1a1a',
-                borderRadius: 8,
-                border: '1px solid #fbbf24',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#fbbf24'
-                e.target.style.color = '#000000'
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = '#1a1a1a'
-                e.target.style.color = '#ffffff'
-              }}
-            >
-              📈 Live Crypto
-            </Link>
-            
-            <Link 
-              to="/news" 
-              style={{ 
-                fontSize: 14, 
-                color: '#ffffff', 
-                textDecoration: 'none',
-                padding: '6px 12px',
-                backgroundColor: '#1a1a1a',
-                borderRadius: 8,
-                border: '1px solid #fbbf24',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#fbbf24'
-                e.target.style.color = '#000000'
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = '#1a1a1a'
-                e.target.style.color = '#ffffff'
-              }}
-            >
-              📰 Live News
-            </Link>
-            
-            <Link 
-              to="/about" 
-              style={{ 
-                fontSize: 14, 
-                color: '#ffffff', 
-                textDecoration: 'none',
-                padding: '6px 12px',
-                backgroundColor: '#1a1a1a',
-                borderRadius: 8,
-                border: '1px solid #fbbf24',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#fbbf24'
-                e.target.style.color = '#000000'
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = '#1a1a1a'
-                e.target.style.color = '#ffffff'
-              }}
-            >
-              ℹ️ About
-            </Link>
-          </div>
-        </div>
-
-        {/* Bottom Row - Stats and Actions */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-          gap: 16,
-          alignItems: 'center'
-        }}>
-          {/* Balance Card */}
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 12,
-            padding: '12px 16px',
-            backgroundColor: '#1a1a1a',
-            borderRadius: 10,
-            border: '1px solid #fbbf24'
-          }}>
-            <div style={{ 
-              width: 40, 
-              height: 40, 
-              backgroundColor: '#fbbf24', 
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: '#000000'
-            }}>
-              💰
-            </div>
-            <div>
-              <div style={{ fontSize: 12, color: '#ffffff', marginBottom: 2 }}>Balance</div>
-              <div style={{ fontSize: 20, fontWeight: 'bold', color: '#fbbf24' }}>{balance} BTC</div>
-            </div>
+            <nav className="nav-links">
+              <Link to="/" className="nav-link">{t('home')}</Link>
+              <Link to="/crypto" className="nav-link">{t('liveCrypto')}</Link>
+              <Link to="/news" className="nav-link">{t('liveNews')}</Link>
+              <Link to="/about" className="nav-link">{t('about')}</Link>
+            </nav>
+            <LanguageSelector />
           </div>
 
-          {/* Streak Card */}
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 12,
-            padding: '12px 16px',
-            backgroundColor: '#1a1a1a',
-            borderRadius: 10,
-            border: '1px solid #fbbf24'
-          }}>
-            <div style={{ 
-              width: 40, 
-              height: 40, 
-              backgroundColor: '#fbbf24', 
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: '#000000'
-            }}>
-              🔥
-            </div>
-            <div>
-              <div style={{ fontSize: 12, color: '#ffffff', marginBottom: 2 }}>Streak</div>
-              <div style={{ fontSize: 20, fontWeight: 'bold', color: '#fbbf24' }}>{streak} days</div>
-            </div>
-          </div>
-
-          {/* Save Status Card */}
-          {lastSaved && (
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 12,
-              padding: '12px 16px',
-              backgroundColor: '#1a1a1a',
-              borderRadius: 10,
-              border: '1px solid #fbbf24'
-            }}>
-              <div style={{ 
-                width: 40, 
-                height: 40, 
-                backgroundColor: '#fbbf24', 
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 18,
-                fontWeight: 'bold',
-                color: '#000000'
-              }}>
-                💾
-              </div>
-              <div>
-                <div style={{ fontSize: 12, color: '#ffffff', marginBottom: 2 }}>Last Saved</div>
-                <div style={{ fontSize: 14, fontWeight: 'bold', color: '#fbbf24' }}>{lastSaved}</div>
+          {/* Stats Row */}
+          <div className="header-stats">
+            <div className="stat-card">
+              <div className="stat-icon">💰</div>
+              <div className="stat-content">
+                <div className="stat-label">{t('balance')}</div>
+                <div className="stat-value">{balance} {t('btc')}</div>
               </div>
             </div>
-          )}
-
-          {/* Action Buttons */}
-          <div style={{ 
-            display: 'flex', 
-            gap: 8,
-            justifyContent: 'flex-end'
-          }}>
-            <button 
-              onClick={restoreFromBackup} 
-              style={{ 
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                fontSize: 12, 
-                padding: '8px 12px', 
-                backgroundColor: '#fbbf24', 
-                color: '#000000', 
-                border: 'none', 
-                borderRadius: 8,
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#ffffff'
-                e.target.style.transform = 'translateY(-1px)'
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = '#fbbf24'
-                e.target.style.transform = 'translateY(0)'
-              }}
-            >
-              🔄 Restore
-            </button>
-            <button 
-              onClick={resetProgress}
-              style={{ 
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                backgroundColor: '#ffffff', 
-                color: '#000000', 
-                border: 'none', 
-                borderRadius: 8,
-                padding: '8px 12px',
-                cursor: 'pointer',
-                fontSize: 12,
-                fontWeight: 'bold',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#fbbf24'
-                e.target.style.transform = 'translateY(-1px)'
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = '#ffffff'
-                e.target.style.transform = 'translateY(0)'
-              }}
-            >
-              🗑️ Reset
-            </button>
+            <div className="stat-card">
+              <div className="stat-icon">🔥</div>
+              <div className="stat-content">
+                <div className="stat-label">{t('streak')}</div>
+                <div className="stat-value">{streak} {t('days')}</div>
+              </div>
+            </div>
+            {lastSaved && (
+              <div className="stat-card">
+                <div className="stat-icon">💾</div>
+                <div className="stat-content">
+                  <div className="stat-label">{t('lastSaved')}</div>
+                  <div className="stat-value">{lastSaved}</div>
+                </div>
+              </div>
+            )}
+            <div className="action-buttons">
+              <button onClick={restoreFromBackup} className="action-btn">🔄 {t('restore')}</button>
+              <button onClick={resetProgress} className="action-btn">🗑️ {t('reset')}</button>
+            </div>
           </div>
+        </header>
+
+        {/* Main Content Area */}
+        <div className="dashboard-main">
+          <Sidebar />
+          <main className="content-area">
+            {children}
+          </main>
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 16 }}>
-        <Sidebar />
-      <div>
-          {children}
-        </div>
-      </div>
+
+      {/* Notifications */}
       {notifications.map((n) => (
         <div key={n.id} className="toast">{n.text}</div>
       ))}
@@ -344,6 +103,7 @@ function Layout({ children }) {
 }
 
 function Sidebar() {
+  const { t } = useLanguage()
   const { BASIC_TOPICS, unlockedTopics, UNLOCK_COST, setActiveTopicIndex, activeTopicIndex, unlockTopic, completedSectionsByTopic } = useStore()
   const navigate = useNavigate()
   
@@ -359,13 +119,13 @@ function Sidebar() {
   }
   
   return (
-    <div className="card" style={{ height: '100%', position: 'sticky', top: 12, backgroundColor: '#000000', border: '2px solid #fbbf24' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-        <BookOpen size={18} style={{ color: '#fbbf24' }} />
-        <strong style={{ color: '#fbbf24' }}>Learning Path</strong>
+    <div className="glass-sidebar" style={{ minHeight: 'fit-content', position: 'sticky', top: 12 }}>
+      <div className="flex items-center gap-sm" style={{ marginBottom: 'var(--spacing-md)' }}>
+        <BookOpen size={18} style={{ color: 'var(--gold-primary)' }} />
+        <strong className="gradient-text">{t('learningPath')}</strong>
       </div>
       
-      <div style={{ display: 'grid', gap: 8 }}>
+      <div style={{ display: 'grid', gap: 'var(--spacing-sm)' }}>
         {BASIC_TOPICS.map((name, index) => {
           const unlocked = unlockedTopics.has(index)
           const isActive = index === activeTopicIndex
@@ -375,56 +135,46 @@ function Sidebar() {
           return (
             <div 
               key={index} 
+              className={`glass-card ${isActive ? 'premium-card' : ''}`}
               style={{ 
-                padding: 12, 
-                backgroundColor: isActive ? '#1a1a1a' : unlocked ? '#1a1a1a' : '#000000',
-                borderRadius: 8, 
-                border: isActive ? '2px solid #fbbf24' : unlocked ? '1px solid #fbbf24' : '1px solid #6b7280',
+                padding: 'var(--spacing-md)', 
                 cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                borderColor: isActive ? 'var(--gold-primary)' : unlocked ? 'var(--glass-border)' : 'rgba(107, 114, 128, 0.3)',
+                opacity: unlocked ? 1 : 0.6
               }}
               onClick={() => { setActiveTopicIndex(index); navigate(`/topic/${index}`) }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div className="flex items-center justify-between" style={{ marginBottom: 'var(--spacing-sm)' }}>
+                <div className="flex items-center gap-sm">
                   <span style={{ fontSize: 16 }}>{icon}</span>
                   <div>
                     <div style={{ 
                       fontSize: 13, 
                       fontWeight: 'bold', 
-                      color: isActive ? '#fbbf24' : unlocked ? '#ffffff' : '#6b7280'
+                      color: isActive ? 'var(--gold-primary)' : unlocked ? 'var(--text-primary)' : 'var(--text-muted)'
                     }}>
                       {name}
                     </div>
                     {unlocked && (
-                      <div style={{ fontSize: 11, color: '#ffffff' }}>
-                        {progress.completed}/{progress.total} sections
+                      <div style={{ fontSize: 11, color: 'var(--text-secondary)' }}>
+                        {progress.completed}/{progress.total} {t('sections')}
                       </div>
                     )}
                   </div>
                 </div>
                 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div className="flex items-center gap-xs">
                   {unlocked ? (
-                    <div style={{ 
-                      fontSize: 12, 
-                      color: progress.percentage === 100 ? '#fbbf24' : '#ffffff',
-                      fontWeight: 'bold'
-                    }}>
+                    <div className="xp-badge" style={{ fontSize: 12 }}>
                       {progress.percentage}%
                     </div>
                   ) : (
                     <button 
                       onClick={(e) => { e.stopPropagation(); unlockTopic(index) }}
+                      className="gold-button"
                       style={{ 
-                        padding: '4px 8px', 
-                        fontSize: 11, 
-                        backgroundColor: '#fbbf24', 
-                        color: '#000000', 
-                        border: 'none', 
-                        borderRadius: 4,
-                        cursor: 'pointer',
-                        fontWeight: 'bold'
+                        padding: 'var(--spacing-xs) var(--spacing-sm)', 
+                        fontSize: 11
                       }}
                       title={`Unlock (-${UNLOCK_COST} BTC)`}
                     >
@@ -435,12 +185,12 @@ function Sidebar() {
               </div>
               
               {unlocked && (
-                <div style={{ marginTop: 8 }}>
-                  <div className="progress" style={{ height: 4, backgroundColor: '#000000', border: '1px solid #fbbf24' }}>
+                <div style={{ marginTop: 'var(--spacing-sm)' }}>
+                  <div className="progress" style={{ height: 4 }}>
                     <span 
                       style={{ 
                         width: `${progress.percentage}%`, 
-                        backgroundColor: progress.percentage === 100 ? '#fbbf24' : '#ffffff'
+                        backgroundColor: progress.percentage === 100 ? 'var(--gold-primary)' : 'var(--gold-secondary)'
                       }} 
                     />
                   </div>
@@ -452,13 +202,13 @@ function Sidebar() {
       </div>
       
       {/* Quick Stats */}
-      <div style={{ marginTop: 16, padding: 12, backgroundColor: '#1a1a1a', borderRadius: 8, border: '1px solid #fbbf24' }}>
-        <div style={{ fontSize: 12, color: '#fbbf24', marginBottom: 8 }}>Progress Overview</div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
-          <span style={{ color: '#fbbf24' }}>
+      <div className="glass-card" style={{ marginTop: 'var(--spacing-md)', padding: 'var(--spacing-md)' }}>
+        <div style={{ fontSize: 12, color: 'var(--gold-primary)', marginBottom: 'var(--spacing-sm)' }}>Progress Overview</div>
+        <div className="flex justify-between" style={{ fontSize: 11 }}>
+          <span style={{ color: 'var(--gold-primary)' }}>
             ✅ {Object.values(completedSectionsByTopic).reduce((sum, count) => sum + count, 0)} completed
           </span>
-          <span style={{ color: '#ffffff' }}>
+          <span style={{ color: 'var(--text-primary)' }}>
             🔓 {unlockedTopics.size} unlocked
           </span>
         </div>
@@ -479,89 +229,206 @@ function Home() {
   return (
     <div>
       {/* Welcome Section */}
-      <div className="card" style={{ marginBottom: 16, background: 'linear-gradient(135deg, #000000 0%, #1a1a1a 100%)', border: '2px solid #fbbf24' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+      <div className="premium-card" style={{ marginBottom: 'var(--spacing-md)' }}>
+        <div className="flex items-center justify-between" style={{ marginBottom: 'var(--spacing-md)' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+            <div className="flex items-center gap-md" style={{ marginBottom: 'var(--spacing-sm)' }}>
               <Logo size="48px" />
               <div>
-                <h2 style={{ margin: 0, color: '#fbbf24', fontSize: '28px', fontWeight: 'bold' }}>
+                <h2 className="gradient-text" style={{ margin: 0, fontSize: '28px', fontWeight: 'bold' }}>
                   COINLINGO
                 </h2>
-                <p style={{ margin: '4px 0 0 0', color: '#FFD600', fontSize: '16px', fontWeight: '500' }}>
-                  Learn Crypto the Fun Way
+                <p style={{ margin: '4px 0 0 0', color: 'var(--gold-light)', fontSize: '16px', fontWeight: '500' }}>
+                  Learn Money & Crypto the Fun Way
                 </p>
               </div>
             </div>
-            <p style={{ margin: '8px 0 0 0', color: '#ffffff', fontSize: '16px' }}>
-              Master cryptocurrency investing through interactive learning
+            <p style={{ margin: '8px 0 0 0', color: 'var(--text-secondary)', fontSize: '16px' }}>
+              Gamified learning platform teaching kids, elderly, and beginners about money basics, financial literacy, and Web3/crypto through simple analogies and fun mini-games
             </p>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: 24, fontWeight: 'bold', color: '#fbbf24' }}>{balance} BTC</div>
-            <div style={{ fontSize: 14, color: '#ffffff' }}>Balance</div>
+          <div className="text-right">
+            <div className="gradient-text" style={{ fontSize: 24, fontWeight: 'bold' }}>{balance} BTC</div>
+            <div style={{ fontSize: 14, color: 'var(--text-secondary)' }}>Balance</div>
           </div>
         </div>
         
         {/* Quick Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 16 }}>
-          <div style={{ textAlign: 'center', padding: 12, backgroundColor: '#000000', borderRadius: 8, border: '1px solid #fbbf24' }}>
-            <div style={{ fontSize: 20, fontWeight: 'bold', color: '#fbbf24' }}>{streak}</div>
-            <div style={{ fontSize: 12, color: '#ffffff' }}>Day Streak 🔥</div>
+        <div className="premium-grid" style={{ marginBottom: 'var(--spacing-md)' }}>
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-md)' }}>
+            <div className="gradient-text" style={{ fontSize: 20, fontWeight: 'bold' }}>{streak}</div>
+            <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Day Streak 🔥</div>
           </div>
-          <div style={{ textAlign: 'center', padding: 12, backgroundColor: '#000000', borderRadius: 8, border: '1px solid #fbbf24' }}>
-            <div style={{ fontSize: 20, fontWeight: 'bold', color: '#fbbf24' }}>{completedSections}</div>
-            <div style={{ fontSize: 12, color: '#ffffff' }}>Sections Done</div>
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-md)' }}>
+            <div className="gradient-text" style={{ fontSize: 20, fontWeight: 'bold' }}>{completedSections}</div>
+            <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Sections Done</div>
           </div>
-          <div style={{ textAlign: 'center', padding: 12, backgroundColor: '#000000', borderRadius: 8, border: '1px solid #fbbf24' }}>
-            <div style={{ fontSize: 20, fontWeight: 'bold', color: '#fbbf24' }}>{progressPercentage}%</div>
-            <div style={{ fontSize: 12, color: '#ffffff' }}>Progress</div>
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-md)' }}>
+            <div className="gradient-text" style={{ fontSize: 20, fontWeight: 'bold' }}>{progressPercentage}%</div>
+            <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Progress</div>
           </div>
         </div>
         
         {/* Progress Bar */}
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-            <span style={{ fontSize: 14, color: '#ffffff' }}>Overall Progress</span>
-            <span style={{ fontSize: 14, color: '#ffffff' }}>{completedSections}/{totalSections}</span>
+        <div style={{ marginBottom: 'var(--spacing-md)' }}>
+          <div className="flex justify-between" style={{ marginBottom: 4 }}>
+            <span style={{ fontSize: 14, color: 'var(--text-primary)' }}>Overall Progress</span>
+            <span style={{ fontSize: 14, color: 'var(--text-primary)' }}>{completedSections}/{totalSections}</span>
           </div>
-          <div className="progress" style={{ height: 8, backgroundColor: '#000000', border: '1px solid #fbbf24' }}>
-            <span style={{ width: `${progressPercentage}%`, backgroundColor: '#fbbf24' }} />
+          <div className="progress" style={{ height: 8 }}>
+            <span style={{ width: `${progressPercentage}%` }} />
           </div>
         </div>
         
         {/* Quick Actions */}
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <button 
-            onClick={() => navigate('/topic/0')}
-            style={{ 
-              padding: '8px 16px', 
-              backgroundColor: '#fbbf24', 
-              color: '#000000', 
-              border: 'none', 
-              borderRadius: 6,
-              cursor: 'pointer',
-              fontSize: 14,
-              fontWeight: 'bold'
-            }}
-          >
+        <div className="flex gap-md" style={{ flexWrap: 'wrap' }}>
+          <button onClick={() => navigate('/topic/0')} className="gold-button">
             📚 Start Learning
           </button>
-          <button 
-            onClick={() => navigate('/topic/0')}
-            style={{ 
-              padding: '8px 16px', 
-              backgroundColor: '#ffffff', 
-              color: '#000000', 
-              border: 'none', 
-              borderRadius: 6,
-              cursor: 'pointer',
-              fontSize: 14,
-              fontWeight: 'bold'
-            }}
-          >
+          <button onClick={() => navigate('/topic/0')} className="glass-button">
             🎯 View Topics
           </button>
+        </div>
+      </div>
+      
+      {/* Learning Levels Section */}
+      <div className="premium-card" style={{ marginBottom: 'var(--spacing-md)' }}>
+        <h3 className="gradient-text text-center" style={{ fontSize: '24px', marginBottom: 'var(--spacing-lg)' }}>
+          🎓 Money & Web3 Learning Levels
+        </h3>
+        <div className="premium-grid">
+          {/* Level 1: Safety First */}
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-lg)' }}>
+            <div style={{ fontSize: '32px', marginBottom: 'var(--spacing-md)' }}>🎓</div>
+            <h4 className="gradient-text" style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: 'var(--spacing-sm)' }}>
+              Level 1: Safety First
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: 'var(--spacing-md)' }}>
+              Spotting scams & fraud (mandatory for everyone)
+            </p>
+            <button className="gold-button" style={{ fontSize: '12px', padding: 'var(--spacing-sm) var(--spacing-md)' }}>
+              Start Learning
+            </button>
+          </div>
+
+          {/* Level 2: Money Basics */}
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-lg)' }}>
+            <div style={{ fontSize: '32px', marginBottom: 'var(--spacing-md)' }}>💵</div>
+            <h4 className="gradient-text" style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: 'var(--spacing-sm)' }}>
+              Level 2: Money Basics
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: 'var(--spacing-md)' }}>
+              Budgeting game, savings challenge, debt trap simulator
+            </p>
+            <button className="gold-button" style={{ fontSize: '12px', padding: 'var(--spacing-sm) var(--spacing-md)' }}>
+              Start Learning
+            </button>
+          </div>
+
+          {/* Level 3: Investing & Future */}
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-lg)' }}>
+            <div style={{ fontSize: '32px', marginBottom: 'var(--spacing-md)' }}>📊</div>
+            <h4 className="gradient-text" style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: 'var(--spacing-sm)' }}>
+              Level 3: Investing & Future
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: 'var(--spacing-md)' }}>
+              Compound interest simulation, risk vs reward, long-term planning
+            </p>
+            <button className="gold-button" style={{ fontSize: '12px', padding: 'var(--spacing-sm) var(--spacing-md)' }}>
+              Start Learning
+            </button>
+          </div>
+
+          {/* Level 4: Digital & Crypto */}
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-lg)' }}>
+            <div style={{ fontSize: '32px', marginBottom: 'var(--spacing-md)' }}>🪙</div>
+            <h4 className="gradient-text" style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: 'var(--spacing-sm)' }}>
+              Level 4: Digital & Crypto
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: 'var(--spacing-md)' }}>
+              Blockchain explained simply, hot vs cold wallet, safe crypto usage
+            </p>
+            <button className="gold-button" style={{ fontSize: '12px', padding: 'var(--spacing-sm) var(--spacing-md)' }}>
+              Start Learning
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Target Audience Section */}
+      <div className="premium-card" style={{ marginBottom: 'var(--spacing-md)' }}>
+        <h3 className="gradient-text text-center" style={{ fontSize: '24px', marginBottom: 'var(--spacing-lg)' }}>
+          👥 Perfect For Everyone
+        </h3>
+        <div className="premium-grid">
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-md)' }}>
+            <div style={{ fontSize: '28px', marginBottom: 'var(--spacing-sm)' }}>🧒</div>
+            <h4 className="gradient-text" style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: 'var(--spacing-xs)' }}>
+              Kids (10-18)
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '12px' }}>
+              Fun, gamified, story-like lessons
+            </p>
+          </div>
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-md)' }}>
+            <div style={{ fontSize: '28px', marginBottom: 'var(--spacing-sm)' }}>👴</div>
+            <h4 className="gradient-text" style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: 'var(--spacing-xs)' }}>
+              Elderly (50+)
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '12px' }}>
+              Simple step-by-step explanations with large, clear visuals
+            </p>
+          </div>
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-md)' }}>
+            <div style={{ fontSize: '28px', marginBottom: 'var(--spacing-sm)' }}>🎓</div>
+            <h4 className="gradient-text" style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: 'var(--spacing-xs)' }}>
+              Beginners
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '12px' }}>
+              Anyone who finds finance and crypto "too complicated"
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Additional Features Section */}
+      <div className="premium-card" style={{ marginBottom: 'var(--spacing-md)' }}>
+        <h3 className="gradient-text text-center" style={{ fontSize: '24px', marginBottom: 'var(--spacing-lg)' }}>
+          📚 More Learning Tools
+        </h3>
+        <div className="premium-grid">
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-lg)' }}>
+            <div style={{ fontSize: '32px', marginBottom: 'var(--spacing-md)' }}>📰</div>
+            <h4 className="gradient-text" style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: 'var(--spacing-sm)' }}>
+              News Feed
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: 'var(--spacing-md)' }}>
+              Simplified crypto & finance news cards to stay updated with current events
+            </p>
+            <button 
+              onClick={() => navigate('/news')}
+              className="gold-button"
+              style={{ fontSize: '12px', padding: 'var(--spacing-sm) var(--spacing-md)' }}
+            >
+              View News
+            </button>
+          </div>
+          <div className="glass-card text-center" style={{ padding: 'var(--spacing-lg)' }}>
+            <div style={{ fontSize: '32px', marginBottom: 'var(--spacing-md)' }}>🎓</div>
+            <h4 className="gradient-text" style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: 'var(--spacing-sm)' }}>
+              Tutorials
+            </h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: 'var(--spacing-md)' }}>
+              Easy lessons with images and interactive analogies to make learning fun
+            </p>
+            <button 
+              onClick={() => navigate('/topic/0')}
+              className="gold-button"
+              style={{ fontSize: '12px', padding: 'var(--spacing-sm) var(--spacing-md)' }}
+            >
+              Start Tutorials
+            </button>
+          </div>
         </div>
       </div>
       
@@ -596,9 +463,9 @@ function TopicPage() {
   }
   
   return (
-    <div className="card" style={{ backgroundColor: '#000000', border: '2px solid #fbbf24' }}>
-      <h2 style={{ color: '#fbbf24' }}>{BASIC_TOPICS[index]}</h2>
-      {!unlocked && <p style={{ color: '#ffffff' }}>This topic is locked. Go back and unlock it.</p>}
+    <div className="premium-card">
+      <h2 className="gradient-text">{BASIC_TOPICS[index]}</h2>
+      {!unlocked && <p style={{ color: 'var(--text-secondary)' }}>This topic is locked. Go back and unlock it.</p>}
       {unlocked && (
         <>
           {/* Progress Overview */}
@@ -3227,31 +3094,22 @@ function DailyMissions() {
       status: dailyMissions.claimedShareBonus ? 'completed' : canClaimShareBonus ? 'ready' : 'locked',
       icon: "📱",
       action: dailyMissions.completeTopic ? (
-        <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+        <div className="flex gap-sm" style={{ marginTop: 'var(--spacing-sm)' }}>
           <button 
             onClick={() => markMission('shareOnSocial')} 
-            style={{ 
-              padding: '4px 8px', 
-              fontSize: 12, 
-              backgroundColor: '#fbbf24', 
-              color: '#000000', 
-              border: 'none', 
-              borderRadius: 4,
-              cursor: 'pointer'
-            }}
+            className="gold-button"
+            style={{ fontSize: 12, padding: 'var(--spacing-xs) var(--spacing-sm)' }}
           >
             I shared it
           </button>
           <button 
             onClick={claimShareBonus} 
             disabled={!canClaimShareBonus}
+            className={canClaimShareBonus ? "glass-button" : "glass-button"}
             style={{ 
-              padding: '4px 8px', 
               fontSize: 12, 
-              backgroundColor: canClaimShareBonus ? '#ffffff' : '#6b7280', 
-              color: canClaimShareBonus ? '#000000' : '#ffffff', 
-              border: 'none', 
-              borderRadius: 4,
+              padding: 'var(--spacing-xs) var(--spacing-sm)',
+              opacity: canClaimShareBonus ? 1 : 0.5,
               cursor: canClaimShareBonus ? 'pointer' : 'not-allowed'
             }}
           >
@@ -3270,15 +3128,11 @@ function DailyMissions() {
       action: (
         <button 
           onClick={() => markMission('dailyAltcoinQuiz')}
+          className="gold-button"
           style={{ 
-            padding: '4px 8px', 
             fontSize: 12, 
-            backgroundColor: '#fbbf24', 
-            color: '#000000', 
-            border: 'none', 
-            borderRadius: 4,
-            cursor: 'pointer',
-            marginTop: 8
+            padding: 'var(--spacing-xs) var(--spacing-sm)',
+            marginTop: 'var(--spacing-sm)'
           }}
         >
           Answer Question
@@ -3289,10 +3143,10 @@ function DailyMissions() {
   
   const getStatusColor = (status) => {
     switch (status) {
-      case 'completed': return '#fbbf24'
-      case 'ready': return '#ffffff'
-      case 'locked': return '#6b7280'
-      default: return '#fbbf24'
+      case 'completed': return 'var(--gold-primary)'
+      case 'ready': return 'var(--text-primary)'
+      case 'locked': return 'var(--text-muted)'
+      default: return 'var(--gold-primary)'
     }
   }
   
@@ -3306,33 +3160,32 @@ function DailyMissions() {
   }
   
   return (
-    <div className="card" style={{ backgroundColor: '#000000', border: '2px solid #fbbf24' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-        <Trophy size={18} style={{ color: '#fbbf24' }} />
-        <h3 style={{ margin: 0, color: '#fbbf24' }}>Daily Missions</h3>
+    <div className="premium-card">
+      <div className="flex items-center gap-sm" style={{ marginBottom: 'var(--spacing-md)' }}>
+        <Trophy size={18} style={{ color: 'var(--gold-primary)' }} />
+        <h3 className="gradient-text" style={{ margin: 0 }}>Daily Missions</h3>
       </div>
       
-      <div style={{ display: 'grid', gap: 12 }}>
+      <div style={{ display: 'grid', gap: 'var(--spacing-md)' }}>
         {missions.map((mission) => (
           <div 
             key={mission.id}
+            className="glass-card"
             style={{ 
-              padding: 12, 
-              backgroundColor: '#1a1a1a', 
-              borderRadius: 8, 
-              border: `1px solid ${getStatusColor(mission.status)}`
+              padding: 'var(--spacing-md)', 
+              borderColor: getStatusColor(mission.status)
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className="flex items-center justify-between" style={{ marginBottom: 4 }}>
+              <div className="flex items-center gap-sm">
                 <span style={{ fontSize: 16 }}>{mission.icon}</span>
                 <div>
-                  <div style={{ fontWeight: 'bold', fontSize: 14, color: '#ffffff' }}>{mission.title}</div>
-                  <div style={{ fontSize: 12, color: '#ffffff' }}>{mission.description}</div>
+                  <div style={{ fontWeight: 'bold', fontSize: 14, color: 'var(--text-primary)' }}>{mission.title}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{mission.description}</div>
                 </div>
               </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: 12, color: '#fbbf24', fontWeight: 'bold' }}>{mission.reward}</div>
+              <div className="text-right">
+                <div className="gradient-text" style={{ fontSize: 12, fontWeight: 'bold' }}>{mission.reward}</div>
                 <div style={{ fontSize: 11, color: getStatusColor(mission.status) }}>
                   {getStatusText(mission.status)}
                 </div>
@@ -3357,6 +3210,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/topic/:topicIndex" element={<TopicPage />} />
           <Route path="/topic/:topicIndex/section/:sectionNumber" element={<SectionRouter />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </Layout>
     </StoreProvider>

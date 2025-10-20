@@ -25,6 +25,7 @@ export function StoreProvider({ children }) {
   })
   const [streak, setStreak] = useState(0)
   const [lastActiveDay, setLastActiveDay] = useState(null)
+  const [streakMultiplier, setStreakMultiplier] = useState(1)
   const [achievements, setAchievements] = useState([])
   const [notifications, setNotifications] = useState([])
 
@@ -52,6 +53,7 @@ export function StoreProvider({ children }) {
       }
       if (typeof data.streak === 'number') setStreak(data.streak)
       if (typeof data.lastActiveDay === 'string') setLastActiveDay(data.lastActiveDay)
+      if (typeof data.streakMultiplier === 'number') setStreakMultiplier(data.streakMultiplier)
       if (Array.isArray(data.achievements)) setAchievements(data.achievements)
     } catch {}
   }, [])
@@ -69,6 +71,7 @@ export function StoreProvider({ children }) {
           dailyMissions,
           streak,
           lastActiveDay,
+          streakMultiplier,
           achievements,
           lastSaved: new Date().toISOString(), // Track when progress was last saved
           version: '1.0' // For future compatibility
@@ -118,22 +121,33 @@ export function StoreProvider({ children }) {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
     }
-  }, [balance, unlockedTopics, activeTopicIndex, completedSectionsByTopic, claimedSectionsByTopic, dailyMissions, streak, lastActiveDay, achievements])
+  }, [balance, unlockedTopics, activeTopicIndex, completedSectionsByTopic, claimedSectionsByTopic, dailyMissions, streak, lastActiveDay, streakMultiplier, achievements])
 
-  // streak tracking: increment if consecutive days
+  // Enhanced streak tracking with compounding multipliers
   useEffect(() => {
     const today = todayKey()
     if (lastActiveDay === today) return
     if (!lastActiveDay) {
       setStreak(1)
+      setStreakMultiplier(1)
       setLastActiveDay(today)
       return
     }
     const last = new Date(lastActiveDay)
     const t = new Date(today)
     const diff = Math.round((t - last) / (1000 * 60 * 60 * 24))
-    if (diff === 1) setStreak((s) => s + 1)
-    else if (diff > 1) setStreak(1)
+    if (diff === 1) {
+      setStreak((s) => {
+        const newStreak = s + 1
+        // Calculate compounding multiplier: 1.0x for day 1, 1.2x for day 2, 1.5x for day 3, etc.
+        const newMultiplier = Math.min(1 + (newStreak - 1) * 0.2, 3.0) // Cap at 3.0x
+        setStreakMultiplier(newMultiplier)
+        return newStreak
+      })
+    } else if (diff > 1) {
+      setStreak(1)
+      setStreakMultiplier(1)
+    }
     setLastActiveDay(today)
   }, [])
 
@@ -306,6 +320,8 @@ export function StoreProvider({ children }) {
     completedSectionsByTopic,
     dailyMissions,
     canClaimShareBonus,
+    streak,
+    streakMultiplier,
     // constants
     BASIC_TOPICS,
     UNLOCK_COST,
@@ -323,7 +339,6 @@ export function StoreProvider({ children }) {
     restoreFromBackup,
     getLastSavedTime,
     notifications,
-    streak,
     achievements,
   }
 

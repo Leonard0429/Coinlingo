@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/',  // Vercel handles the paths automatically, so base can be root
+  base: '/Coinlingo/',   // MUST exactly match my GitHub repository name
 })

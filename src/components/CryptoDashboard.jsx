@@ -1,30 +1,55 @@
 import { useState, useEffect } from 'react'
 import { TrendingUp, TrendingDown, ExternalLink, RefreshCw } from 'lucide-react'
+import { useLanguage } from '../context/LanguageContext.jsx'
 
 // Crypto Dashboard Component
 function CryptoDashboard() {
+  const { t } = useLanguage()
   const [prices, setPrices] = useState([])
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState(null)
 
-  // Fetch crypto prices from CoinGecko
+  // Fetch crypto prices from CoinGecko with CORS proxy
   const fetchPrices = async () => {
     try {
-      const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d')
-      const data = await response.json()
-      setPrices(data)
-      setLastUpdated(new Date())
+      const apiUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d'
+      const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`
+      
+      const response = await fetch(proxyUrl)
+      const proxyData = await response.json()
+      const data = JSON.parse(proxyData.contents)
+      
+      // Ensure we always set an array
+      if (Array.isArray(data)) {
+        setPrices(data)
+        setLastUpdated(new Date())
+      } else if (data && Array.isArray(data.data)) {
+        // Handle case where API returns { data: [...] }
+        setPrices(data.data)
+        setLastUpdated(new Date())
+      } else {
+        console.warn('API returned unexpected data structure:', data)
+        setPrices([]) // Set empty array as fallback
+        setLastUpdated(new Date())
+      }
     } catch (error) {
       console.error('Error fetching prices:', error)
+      setPrices([]) // Set empty array on error
     }
   }
 
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true)
-      await fetchPrices()
-      setLoading(false)
+      try {
+        setLoading(true)
+        await fetchPrices()
+      } catch (error) {
+        console.error('Error in loadData:', error)
+        setPrices([]) // Ensure we have an empty array on error
+      } finally {
+        setLoading(false)
+      }
     }
     
     loadData()
@@ -67,8 +92,20 @@ function CryptoDashboard() {
     return (
       <div className="card" style={{ backgroundColor: '#000000', border: '2px solid #fbbf24', textAlign: 'center', padding: '40px' }}>
         <div style={{ fontSize: 24, marginBottom: 16 }}>⏳</div>
-        <div style={{ color: '#fbbf24', fontSize: 18, fontWeight: 'bold' }}>Loading Live Crypto Data...</div>
-        <div style={{ color: '#ffffff', fontSize: 14, marginTop: 8 }}>Fetching cryptocurrency prices</div>
+        <div style={{ color: '#fbbf24', fontSize: 18, fontWeight: 'bold' }}>{t('loadingLiveCryptoData')}</div>
+        <div style={{ color: '#ffffff', fontSize: 14, marginTop: 8 }}>{t('fetchingCryptocurrencyPrices')}</div>
+      </div>
+    )
+  }
+
+  // Check if prices is not an array and show fallback UI
+  if (!Array.isArray(prices)) {
+    console.warn("Prices data is not an array:", prices);
+    return (
+      <div className="card" style={{ backgroundColor: '#000000', border: '2px solid #fbbf24', textAlign: 'center', padding: '40px' }}>
+        <div style={{ fontSize: 24, marginBottom: 16 }}>⚠️</div>
+        <div style={{ color: '#fbbf24', fontSize: 18, fontWeight: 'bold' }}>{t('loadingPriceData')}</div>
+        <div style={{ color: '#ffffff', fontSize: 14, marginTop: 8 }}>{t('pleaseWaitWhileWeFetch')}</div>
       </div>
     )
   }
@@ -80,18 +117,24 @@ function CryptoDashboard() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <TrendingUp size={24} style={{ color: '#fbbf24' }} />
-            <h2 style={{ margin: 0, color: '#fbbf24' }}>Live Crypto Dashboard</h2>
+            <h2 style={{ margin: 0, color: '#fbbf24' }}>{t('liveCryptoDashboard')}</h2>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             {lastUpdated && (
               <div style={{ fontSize: 12, color: '#ffffff' }}>
-                Last updated: {lastUpdated.toLocaleTimeString()}
+                {t('lastUpdated')}: {lastUpdated.toLocaleTimeString()}
               </div>
             )}
             <button
-              onClick={() => {
-                setLoading(true)
-                fetchPrices().then(() => setLoading(false))
+              onClick={async () => {
+                try {
+                  setLoading(true)
+                  await fetchPrices()
+                } catch (error) {
+                  console.error('Error refreshing prices:', error)
+                } finally {
+                  setLoading(false)
+                }
               }}
               style={{
                 display: 'flex',
@@ -108,14 +151,22 @@ function CryptoDashboard() {
               }}
             >
               <RefreshCw size={14} />
-              Refresh
+              {t('refresh')}
             </button>
           </div>
         </div>
       </div>
 
       {/* Price Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16, marginBottom: 24 }}>
+      <div className="crypto-dashboard-grid" style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+        gap: 16, 
+        marginBottom: 24,
+        width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box'
+      }}>
         {prices.slice(0, 12).map((coin) => (
           <div
             key={coin.id}
@@ -181,25 +232,25 @@ function CryptoDashboard() {
             {/* Stats */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 11 }}>
               <div>
-                <div style={{ color: '#6b7280' }}>Market Cap</div>
+                <div style={{ color: '#6b7280' }}>{t('marketCap')}</div>
                 <div style={{ color: '#ffffff', fontWeight: 'bold' }}>
                   {formatMarketCap(coin.market_cap)}
                 </div>
               </div>
               <div>
-                <div style={{ color: '#6b7280' }}>24h Volume</div>
+                <div style={{ color: '#6b7280' }}>{t('volume24h')}</div>
                 <div style={{ color: '#ffffff', fontWeight: 'bold' }}>
                   {formatMarketCap(coin.total_volume)}
                 </div>
               </div>
               <div>
-                <div style={{ color: '#6b7280' }}>1h Change</div>
+                <div style={{ color: '#6b7280' }}>{t('change1h')}</div>
                 <div style={{ fontWeight: 'bold' }}>
                   {formatChange(coin.price_change_percentage_1h_in_currency)}
                 </div>
               </div>
               <div>
-                <div style={{ color: '#6b7280' }}>7d Change</div>
+                <div style={{ color: '#6b7280' }}>{t('change7d')}</div>
                 <div style={{ fontWeight: 'bold' }}>
                   {formatChange(coin.price_change_percentage_7d_in_currency)}
                 </div>

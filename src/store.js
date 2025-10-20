@@ -5,6 +5,10 @@ export const SECTIONS_PER_TOPIC = 5
 export const STORAGE_KEY = 'coinlingo_state_v1'
 
 export const BASIC_TOPICS = [
+  'Safety First',
+  'Money Basics',
+  'Investing & Future',
+  'Digital & Crypto',
   'What is Cryptocurrency?',
   'Bitcoin (BTC) Basics',
   'What is Blockchain?',
@@ -15,121 +19,111 @@ export const BASIC_TOPICS = [
 ]
 
 export const TOPIC_CONTENT = {
-  0: { // What is Cryptocurrency?
+  0: { // Safety First
     tutorial: [
-      'Crypto is internet-native money that lives on public blockchains where everyone can verify transactions.',
-      'Bitcoin is the first cryptocurrency with a hard cap of 21M, often called digital gold due to predictable scarcity.',
-      'A blockchain is an ordered sequence of blocks containing transactions; once added, data is tamper-evident and transparent.',
-      'Coins have their own blockchains (BTC/ETH) while tokens are issued on top of existing chains (like USDT on Ethereum).',
-      'Market basics: market cap = price × circulating supply; prices are volatile; liquidity affects how easily you can trade.',
-      'Wallet security: hot (online, convenient) vs cold (offline, safer). Never share private keys or seed phrases.',
+      'Scams often promise unrealistic returns or "guaranteed" profits - if it sounds too good to be true, it probably is.',
+      'Phishing attacks try to steal your private keys by mimicking legitimate websites or sending fake emails.',
+      'Pump and dump schemes artificially inflate prices before selling, leaving others with worthless tokens.',
+      'Fake exchanges and wallets can steal your funds - always verify official sources and check reviews.',
+      'Never share your private keys, seed phrases, or passwords with anyone, even if they claim to be support.',
+      'Research any project thoroughly before investing - check the team, whitepaper, and community feedback.',
     ],
     tutorialImages: [
-      'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop&crop=center', // Crypto concept
-      'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop&crop=center', // Bitcoin
-      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Blockchain
-      'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop&crop=center', // Coins vs tokens
-      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Market
-      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Wallets
+      'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop&crop=center', // Scam awareness
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Phishing
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Pump and dump
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Fake exchanges
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Private keys
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Research
     ],
     tutorialKids: [
-      'Like money made for the internet that everyone can see.',
-      'Like rare digital gold—only 21 million exist.',
-      'Like a notebook everyone can read but no one can erase.',
-      'Coins have their own house; tokens live in someone else’s house.',
-      'Market cap = all toys value; prices wiggle; easy trade needs many friends.',
-      'Hot = online backpack; Cold = safe at home; keep your secret key secret.',
+      'If someone promises you free money, they\'re probably trying to trick you!',
+      'Bad guys try to steal your secret codes by pretending to be your friend.',
+      'Some people make fake excitement to trick others into buying expensive things.',
+      'Always check if a store is real before giving them your money.',
+      'Never tell anyone your secret passwords, even if they say they\'re helping you.',
+      'Look up information about things before you spend money on them.',
     ],
     quiz: [
       { 
-        q: 'Is crypto centralized by a single government?', 
+        q: 'Someone promises 1000% returns in one week. What should you do?', 
         correct: 'B',
         options: {
-          A: 'Yes, controlled by banks',
-          B: 'No, it is decentralized',
-          C: 'Only Bitcoin is decentralized'
+          A: 'Invest immediately',
+          B: 'This is likely a scam',
+          C: 'Ask for more details'
         },
-        explanation: 'Cryptocurrency is decentralized by design - no single entity controls it. This is one of its key advantages over traditional banking.',
-        kidExplanation: 'Crypto is like a playground where no teacher is in charge - all the kids work together to make sure everyone plays fair!'
+        explanation: 'Unrealistic promises of huge returns are classic scam tactics. Legitimate investments don\'t guarantee such returns.',
+        kidExplanation: 'If someone promises you a million dollars for doing nothing, they\'re probably trying to trick you!'
       },
       { 
-        q: 'What does BTC cap at?', 
+        q: 'A website asks for your private key. What should you do?', 
         correct: 'A',
         options: {
-          A: '21 million BTC',
-          B: '50 million BTC',
-          C: 'Unlimited supply'
+          A: 'Never share it',
+          B: 'Share it if they ask nicely',
+          C: 'Share it if they promise rewards'
         },
-        explanation: 'Bitcoin has a fixed supply of exactly 21 million coins. This scarcity is what makes it valuable and deflationary.',
-        kidExplanation: 'Bitcoin is like a rare Pokemon card - only 21 million will ever exist, making each one super special!'
+        explanation: 'Never share your private key with anyone - it\'s like giving someone the key to your house!',
+        kidExplanation: 'Your private key is like the secret code to your toy box - never tell anyone, even if they promise you candy!'
       },
       { 
-        q: 'Blockchain is a chain of what?', 
-        correct: 'B',
-        options: {
-          A: 'Banks and institutions',
-          B: 'Blocks containing transactions',
-          C: 'Cryptocurrency exchanges'
-        },
-        explanation: 'Blockchain is literally a chain of blocks, where each block contains a batch of transactions. This creates an immutable ledger.',
-        kidExplanation: 'Blockchain is like building with LEGO blocks! Each block has some information, and they all connect together to make a super strong tower!'
-      },
-      { 
-        q: 'Coins vs Tokens: which has its own chain?', 
-        correct: 'A',
-        options: {
-          A: 'Coins (like Bitcoin)',
-          B: 'Tokens (like USDT)',
-          C: 'Both have their own chains'
-        },
-        explanation: 'Coins have their own blockchain (Bitcoin, Ethereum). Tokens are built on existing blockchains (USDT on Ethereum).',
-        kidExplanation: 'Coins are like having your own treehouse. Tokens are like toys that live in someone else\'s treehouse!'
-      },
-      { 
-        q: 'Market Cap equals?', 
+        q: 'What is phishing?', 
         correct: 'C',
         options: {
-          A: 'Price + Supply',
-          B: 'Price - Supply',
-          C: 'Price × Supply'
+          A: 'A type of fish',
+          B: 'A crypto trading strategy',
+          C: 'Trying to steal your passwords'
         },
-        explanation: 'Market cap is like counting all your toys and multiplying by their price. It shows how much everything is worth together!'
+        explanation: 'Phishing is when bad guys try to trick you into giving them your secret information by pretending to be someone else.',
+        kidExplanation: 'Phishing is like when someone pretends to be your friend to trick you into giving them your secret toy!'
       },
-    ],
-    simulation: 'Mine three blocks to form a simple chain.',
-    news: [
-      {
-        text: 'Bob: "A major exchange halted withdrawals temporarily due to maintenance." What does this mean?',
-        correct: 'B',
-        options: {
-          A: 'Blockchain is broken forever',
-          B: 'A centralized platform paused service; blockchain still runs',
-          C: 'All crypto prices go to zero',
-        },
-        explanation: 'Exchanges are like banks for crypto - they can pause services for maintenance, but the blockchain network continues running independently.',
-        kidExplanation: 'It\'s like when your favorite toy store closes for cleaning - the toys still exist, just the store is temporarily closed!'
-      },
-      {
-        text: 'Bob: "A project announced burning tokens." What happens to supply?',
+      { 
+        q: 'Should you research before investing?', 
         correct: 'A',
         options: {
-          A: 'Supply decreases (tokens removed)',
-          B: 'Supply increases',
-          C: 'No change ever',
+          A: 'Yes, always research first',
+          B: 'No, just trust your gut',
+          C: 'Only for large amounts'
         },
-        explanation: 'Token burning permanently removes tokens from circulation, reducing the total supply and potentially increasing the value of remaining tokens.',
-        kidExplanation: 'It\'s like throwing away some of your trading cards - now there are fewer cards left, making the ones you keep more special!'
+        explanation: 'Always research before investing - it\'s like checking if a toy is safe before you buy it!',
+        kidExplanation: 'Always research before spending money - it\'s like checking if a toy is fun before you buy it!'
+      },
+      { 
+        q: 'What should you do with suspicious emails?', 
+        correct: 'B',
+        options: {
+          A: 'Click all links',
+          B: 'Delete them immediately',
+          C: 'Forward to friends'
+        },
+        explanation: 'Suspicious emails are like mysterious packages - delete them immediately to stay safe!',
+        kidExplanation: 'Suspicious emails are like mysterious boxes from strangers - throw them away immediately to stay safe!'
+      },
+    ],
+    simulation: 'Identify and avoid common crypto scams.',
+    news: [
+      {
+        text: 'Bob: "A new token promises 5000% returns in 24 hours." What should you do?',
+        correct: 'B',
+        options: {
+          A: 'Invest immediately',
+          B: 'This is definitely a scam',
+          C: 'Wait and see what happens'
+        },
+        explanation: 'Promises of unrealistic returns in short timeframes are classic red flags for scams.',
+        kidExplanation: 'If someone promises you a million toys for one dollar, they\'re definitely trying to trick you!'
       },
     ],
   },
-  1: { // Bitcoin (BTC) Basics
+  1: { // Money Basics
     tutorial: [
-      'Bitcoin is the first successful cryptocurrency (2009), introduced by the pseudonymous Satoshi Nakamoto.',
-      'Supply is fixed at 21,000,000 BTC; no central party can print more, ensuring scarcity.',
-      'Mining secures the network by solving proof-of-work puzzles; miners earn BTC for validating transactions.',
-      'The halving event reduces block rewards roughly every 4 years, slowing new supply issuance over time.',
-      'It is often compared to digital gold: a store of value and an inflation hedge for many investors.',
-      'Bitcoin transactions are peer-to-peer and typically confirm about every 10 minutes.',
+      'Budgeting means planning how to spend your money before you get it - like making a shopping list.',
+      'The 50/30/20 rule: 50% for needs (food, rent), 30% for wants (fun stuff), 20% for savings.',
+      'Emergency funds should cover 3-6 months of expenses in case you lose your job or get sick.',
+      'Compound interest means your money grows faster over time - start saving early for maximum benefit.',
+      'Debt can be good (like a house loan) or bad (like credit card debt with high interest rates).',
+      'Track your spending to see where your money goes - you might be surprised by small purchases!',
     ],
     tutorialImages: [
       'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop&crop=center', // Bitcoin introduction
@@ -701,6 +695,394 @@ export const TOPIC_CONTENT = {
           B: 'Stablecoins will increase 20% in price',
           C: 'The protocol is a scam',
         },
+      },
+    ],
+  },
+  7: { // Safety First
+    tutorial: [
+      'Scams often promise unrealistic returns or "guaranteed" profits - if it sounds too good to be true, it probably is.',
+      'Phishing attacks try to steal your private keys by mimicking legitimate websites or sending fake emails.',
+      'Pump and dump schemes artificially inflate prices before selling, leaving others with worthless tokens.',
+      'Fake exchanges and wallets can steal your funds - always verify official sources and check reviews.',
+      'Never share your private keys, seed phrases, or passwords with anyone, even if they claim to be support.',
+      'Research any project thoroughly before investing - check the team, whitepaper, and community feedback.',
+    ],
+    tutorialImages: [
+      'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop&crop=center', // Scam awareness
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Phishing
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Pump and dump
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Fake exchanges
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Private keys
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Research
+    ],
+    tutorialKids: [
+      'If someone promises you free money, they\'re probably trying to trick you!',
+      'Bad guys try to steal your secret codes by pretending to be your friend.',
+      'Some people make fake excitement to trick others into buying expensive things.',
+      'Always check if a store is real before giving them your money.',
+      'Never tell anyone your secret passwords, even if they say they\'re helping you.',
+      'Look up information about things before you spend money on them.',
+    ],
+    quiz: [
+      { 
+        q: 'Someone promises 1000% returns in one week. What should you do?', 
+        correct: 'B',
+        options: {
+          A: 'Invest immediately',
+          B: 'This is likely a scam',
+          C: 'Ask for more details'
+        },
+        explanation: 'Unrealistic promises of huge returns are classic scam tactics. Legitimate investments don\'t guarantee such returns.',
+        kidExplanation: 'If someone promises you a million dollars for doing nothing, they\'re probably trying to trick you!'
+      },
+      { 
+        q: 'A website asks for your private key. What should you do?', 
+        correct: 'A',
+        options: {
+          A: 'Never share it',
+          B: 'Share it if they ask nicely',
+          C: 'Share it if they promise rewards'
+        },
+        explanation: 'Never share your private key with anyone - it\'s like giving someone the key to your house!',
+        kidExplanation: 'Your private key is like the secret code to your toy box - never tell anyone, even if they promise you candy!'
+      },
+      { 
+        q: 'What is phishing?', 
+        correct: 'C',
+        options: {
+          A: 'A type of fish',
+          B: 'A crypto trading strategy',
+          C: 'Trying to steal your passwords'
+        },
+        explanation: 'Phishing is when bad guys try to trick you into giving them your secret information by pretending to be someone else.',
+        kidExplanation: 'Phishing is like when someone pretends to be your friend to trick you into giving them your secret toy!'
+      },
+      { 
+        q: 'Should you research before investing?', 
+        correct: 'A',
+        options: {
+          A: 'Yes, always research first',
+          B: 'No, just trust your gut',
+          C: 'Only for large amounts'
+        },
+        explanation: 'Always research before investing - it\'s like checking if a toy is safe before you buy it!',
+        kidExplanation: 'Always research before spending money - it\'s like checking if a toy is fun before you buy it!'
+      },
+      { 
+        q: 'What should you do with suspicious emails?', 
+        correct: 'B',
+        options: {
+          A: 'Click all links',
+          B: 'Delete them immediately',
+          C: 'Forward to friends'
+        },
+        explanation: 'Suspicious emails are like mysterious packages - delete them immediately to stay safe!',
+        kidExplanation: 'Suspicious emails are like mysterious boxes from strangers - throw them away immediately to stay safe!'
+      },
+    ],
+    simulation: 'Identify and avoid common crypto scams.',
+    news: [
+      {
+        text: 'Bob: "A new token promises 5000% returns in 24 hours." What should you do?',
+        correct: 'B',
+        options: {
+          A: 'Invest immediately',
+          B: 'This is definitely a scam',
+          C: 'Wait and see what happens'
+        },
+        explanation: 'Promises of unrealistic returns in short timeframes are classic red flags for scams.',
+        kidExplanation: 'If someone promises you a million toys for one dollar, they\'re definitely trying to trick you!'
+      },
+    ],
+  },
+  8: { // Money Basics
+    tutorial: [
+      'Budgeting means planning how to spend your money before you get it - like making a shopping list.',
+      'The 50/30/20 rule: 50% for needs (food, rent), 30% for wants (fun stuff), 20% for savings.',
+      'Emergency funds should cover 3-6 months of expenses in case you lose your job or get sick.',
+      'Compound interest means your money grows faster over time - start saving early for maximum benefit.',
+      'Debt can be good (like a house loan) or bad (like credit card debt with high interest rates).',
+      'Track your spending to see where your money goes - you might be surprised by small purchases!',
+    ],
+    tutorialImages: [
+      'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop&crop=center', // Budgeting
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // 50/30/20 rule
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Emergency fund
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Compound interest
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Debt types
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Tracking spending
+    ],
+    tutorialKids: [
+      'Make a plan for your money before you spend it, like planning your lunch.',
+      'Spend half on important things, some on fun things, and save the rest.',
+      'Keep extra money safe for when something bad happens, like getting sick.',
+      'Your saved money grows bigger over time, like a magic beanstalk!',
+      'Some borrowing is good (like buying a house), some is bad (like buying too many toys).',
+      'Write down what you spend to see where your money goes - you might be surprised!',
+    ],
+    quiz: [
+      { 
+        q: 'What is the 50/30/20 rule?', 
+        correct: 'A',
+        options: {
+          A: '50% needs, 30% wants, 20% savings',
+          B: '50% wants, 30% needs, 20% savings',
+          C: '50% savings, 30% needs, 20% wants'
+        },
+        explanation: 'The 50/30/20 rule helps you balance your money: half for important things, some for fun, and some for the future!',
+        kidExplanation: 'The 50/30/20 rule is like dividing your allowance: half for important stuff, some for fun toys, and some to save!'
+      },
+      { 
+        q: 'How much should you save for emergencies?', 
+        correct: 'B',
+        options: {
+          A: '1 month of expenses',
+          B: '3-6 months of expenses',
+          C: '1 year of expenses'
+        },
+        explanation: 'Emergency funds should cover 3-6 months of expenses to help you through tough times.',
+        kidExplanation: 'Emergency money is like having extra snacks when you\'re hungry - save enough for 3-6 months of surprises!'
+      },
+      { 
+        q: 'What is compound interest?', 
+        correct: 'C',
+        options: {
+          A: 'Interest that stays the same',
+          B: 'Interest that decreases over time',
+          C: 'Interest that grows on top of interest'
+        },
+        explanation: 'Compound interest is like a snowball rolling downhill - your money grows bigger and bigger over time!',
+        kidExplanation: 'Compound interest is like magic money that grows on top of your other money - the longer you wait, the bigger it gets!'
+      },
+      { 
+        q: 'Which debt is generally good?', 
+        correct: 'A',
+        options: {
+          A: 'Mortgage for a house',
+          B: 'Credit card debt',
+          C: 'Payday loans'
+        },
+        explanation: 'A mortgage for a house is usually good debt because houses typically increase in value over time.',
+        kidExplanation: 'Borrowing money to buy a house is usually good because houses get more valuable over time, like a special toy that gets better!'
+      },
+      { 
+        q: 'Why track your spending?', 
+        correct: 'B',
+        options: {
+          A: 'To impress friends',
+          B: 'To see where money goes',
+          C: 'To avoid taxes'
+        },
+        explanation: 'Tracking spending helps you understand where your money goes so you can make better decisions.',
+        kidExplanation: 'Writing down what you spend helps you see where your money goes - you might be surprised by how much you spend on snacks!'
+      },
+    ],
+    simulation: 'Create a budget and manage your money wisely.',
+    news: [
+      {
+        text: 'Bob: "I spent $200 on coffee this month." What should he do?',
+        correct: 'A',
+        options: {
+          A: 'Track spending and adjust budget',
+          B: 'Spend more on coffee',
+          C: 'Stop drinking coffee entirely'
+        },
+        explanation: 'Tracking spending helps identify areas where you can save money without completely cutting out things you enjoy.',
+        kidExplanation: 'If you spend too much on snacks, you can still have some snacks but maybe not as many!'
+      },
+    ],
+  },
+  9: { // Investing & Future
+    tutorial: [
+      'Compound interest is the "eighth wonder of the world" - money grows exponentially over time.',
+      'Diversification means not putting all your eggs in one basket - spread investments across different assets.',
+      'Risk vs reward: higher potential returns usually come with higher risk of loss.',
+      'Time in the market beats timing the market - start investing early and stay consistent.',
+      'Dollar-cost averaging means investing the same amount regularly, regardless of market conditions.',
+      'Long-term thinking helps you ride out short-term market volatility and build wealth over decades.',
+    ],
+    tutorialImages: [
+      'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop&crop=center', // Compound interest
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Diversification
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Risk vs reward
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Time in market
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Dollar-cost averaging
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Long-term thinking
+    ],
+    tutorialKids: [
+      'Your money grows like a magic beanstalk - the longer you wait, the bigger it gets!',
+      'Don\'t put all your toys in one box - spread them out so if one breaks, you still have others.',
+      'Riskier investments might give you more money, but you might also lose more money.',
+      'Starting early is like planting a tree when you\'re young - it grows bigger over time.',
+      'Invest the same amount regularly, like putting the same amount in your piggy bank every week.',
+      'Think about the future - your money will grow bigger if you wait patiently.',
+    ],
+    quiz: [
+      { 
+        q: 'What is compound interest?', 
+        correct: 'B',
+        options: {
+          A: 'Interest that stays the same',
+          B: 'Interest that earns interest',
+          C: 'Interest that decreases'
+        },
+        explanation: 'Compound interest is when your interest earns interest - it\'s like a snowball rolling downhill, getting bigger and bigger!',
+        kidExplanation: 'Compound interest is like magic money that grows on top of your other money - the longer you wait, the bigger it gets!'
+      },
+      { 
+        q: 'What does diversification mean?', 
+        correct: 'A',
+        options: {
+          A: 'Spreading investments across different assets',
+          B: 'Putting all money in one investment',
+          C: 'Avoiding all investments'
+        },
+        explanation: 'Diversification is like not putting all your eggs in one basket - if one investment fails, others might still do well.',
+        kidExplanation: 'Diversification is like having different types of toys - if one breaks, you still have others to play with!'
+      },
+      { 
+        q: 'What is dollar-cost averaging?', 
+        correct: 'C',
+        options: {
+          A: 'Investing only when prices are low',
+          B: 'Investing only when prices are high',
+          C: 'Investing the same amount regularly'
+        },
+        explanation: 'Dollar-cost averaging means investing the same amount regularly, which helps reduce the impact of market volatility.',
+        kidExplanation: 'Dollar-cost averaging is like putting the same amount in your piggy bank every week, no matter what!'
+      },
+      { 
+        q: 'Why is time in the market important?', 
+        correct: 'B',
+        options: {
+          A: 'It doesn\'t matter',
+          B: 'It helps ride out short-term volatility',
+          C: 'It guarantees profits'
+        },
+        explanation: 'Time in the market helps you ride out short-term ups and downs, allowing your investments to grow over the long term.',
+        kidExplanation: 'Time in the market is like waiting for your plant to grow - you need to be patient and let it grow over time!'
+      },
+      { 
+        q: 'What is the relationship between risk and reward?', 
+        correct: 'A',
+        options: {
+          A: 'Higher risk usually means higher potential reward',
+          B: 'Lower risk means higher reward',
+          C: 'Risk and reward are unrelated'
+        },
+        explanation: 'Generally, investments with higher potential returns also come with higher risk of loss - it\'s a trade-off.',
+        kidExplanation: 'Riskier investments are like roller coasters - they might give you a big thrill, but they\'re also scarier!'
+      },
+    ],
+    simulation: 'Watch compound interest grow your investments over time.',
+    news: [
+      {
+        text: 'Bob: "The market dropped 20% this month." What should he do?',
+        correct: 'B',
+        options: {
+          A: 'Sell everything immediately',
+          B: 'Stay invested for the long term',
+          C: 'Invest more to catch the dip'
+        },
+        explanation: 'Market drops are normal and temporary. Long-term investors should stay the course rather than panic selling.',
+        kidExplanation: 'Market drops are like when your favorite toy goes on sale - it\'s a good time to buy more, not sell!'
+      },
+    ],
+  },
+  10: { // Digital & Crypto
+    tutorial: [
+      'Blockchain is like a digital ledger that everyone can see but no one can change - it\'s transparent and secure.',
+      'Hot wallets are connected to the internet (convenient but less secure) while cold wallets are offline (safer but less convenient).',
+      'Private keys are like the password to your crypto - never share them with anyone, ever.',
+      'Seed phrases are 12-24 words that can restore your wallet - write them down and store them safely offline.',
+      'Always verify addresses before sending crypto - transactions are irreversible once confirmed.',
+      'Start with small amounts to learn safely - never invest more than you can afford to lose.',
+    ],
+    tutorialImages: [
+      'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop&crop=center', // Blockchain
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Hot vs cold wallets
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Private keys
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Seed phrases
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Address verification
+      'https://images.unsplash.com/photo-1639322537228-f912d6b7b1b1?w=400&h=300&fit=crop&crop=center', // Start small
+    ],
+    tutorialKids: [
+      'Blockchain is like a magic notebook that everyone can read but no one can erase.',
+      'Hot wallets are like keeping money in your pocket (easy to use but can be stolen), cold wallets are like a safe at home (harder to use but safer).',
+      'Private keys are like the secret code to your toy box - never tell anyone, even if they promise you candy!',
+      'Seed phrases are like a magic spell with special words that can unlock your wallet if you lose it.',
+      'Always double-check the address before sending crypto - it\'s like making sure you\'re sending a letter to the right house.',
+      'Start with small amounts to learn - it\'s like practicing with toy money before using real money.',
+    ],
+    quiz: [
+      { 
+        q: 'What is blockchain?', 
+        correct: 'A',
+        options: {
+          A: 'A digital ledger that\'s transparent and secure',
+          B: 'A type of cryptocurrency',
+          C: 'A computer virus'
+        },
+        explanation: 'Blockchain is a digital ledger that\'s transparent (everyone can see) and secure (hard to change).',
+        kidExplanation: 'Blockchain is like a magic notebook that everyone can read but no one can erase - it\'s super safe!'
+      },
+      { 
+        q: 'Which is more secure: hot or cold wallet?', 
+        correct: 'B',
+        options: {
+          A: 'Hot wallet',
+          B: 'Cold wallet',
+          C: 'Both equally secure'
+        },
+        explanation: 'Cold wallets are more secure because they\'re offline and harder for hackers to access.',
+        kidExplanation: 'Cold wallets are like keeping your money in a safe at home - they\'re much safer than keeping it in your pocket!'
+      },
+      { 
+        q: 'Should you share your private key?', 
+        correct: 'A',
+        options: {
+          A: 'Never, under any circumstances',
+          B: 'Only with trusted friends',
+          C: 'If someone promises rewards'
+        },
+        explanation: 'Never share your private key - it\'s like giving someone the key to your house!',
+        kidExplanation: 'Never share your private key - it\'s like giving someone the secret code to your toy box!'
+      },
+      { 
+        q: 'What are seed phrases for?', 
+        correct: 'C',
+        options: {
+          A: 'Making transactions faster',
+          B: 'Getting better prices',
+          C: 'Restoring your wallet if lost'
+        },
+        explanation: 'Seed phrases are like a backup key - they can restore your wallet if you ever lose access.',
+        kidExplanation: 'Seed phrases are like a magic spell that can bring back your wallet if you ever lose it!'
+      },
+      { 
+        q: 'Why start with small amounts?', 
+        correct: 'B',
+        options: {
+          A: 'To get better prices',
+          B: 'To learn safely without big losses',
+          C: 'To impress friends'
+        },
+        explanation: 'Starting small helps you learn without risking too much money - it\'s like practicing before the big game!',
+        kidExplanation: 'Starting small is like practicing with toy money before using real money - you can learn without losing too much!'
+      },
+    ],
+    simulation: 'Practice using crypto safely with hot and cold wallets.',
+    news: [
+      {
+        text: 'Bob: "I sent crypto to the wrong address." What happened?',
+        correct: 'B',
+        options: {
+          A: 'He can get it back easily',
+          B: 'The transaction is irreversible',
+          C: 'He can contact support to reverse it'
+        },
+        explanation: 'Crypto transactions are irreversible once confirmed - that\'s why it\'s so important to double-check addresses.',
+        kidExplanation: 'Crypto transactions are like sending a letter - once you mail it, you can\'t get it back, so make sure you send it to the right address!'
       },
     ],
   },

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Newspaper, ExternalLink, RefreshCw, Clock, AlertCircle } from 'lucide-react'
+import { useLanguage } from '../context/LanguageContext.jsx'
 
 /**
  * NewsFeed Component using CoinStats API
@@ -15,6 +16,7 @@ import { Newspaper, ExternalLink, RefreshCw, Clock, AlertCircle } from 'lucide-r
  * @returns {JSX.Element} The NewsFeed component
  */
 function NewsFeed() {
+  const { t } = useLanguage()
   const [news, setNews] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -31,12 +33,14 @@ function NewsFeed() {
         {
           name: 'CoinStats (Original)',
           url: 'https://api.coinstats.app/public/v1/news?skip=0&limit=10',
-          parser: (data) => data.news || []
+          parser: (data) => data.news || [],
+          useProxy: true
         },
         {
           name: 'CoinStats (Alternative)',
           url: 'https://api.coinstats.app/public/v1/news?limit=10',
-          parser: (data) => data.news || []
+          parser: (data) => data.news || [],
+          useProxy: true
         },
         {
           name: 'CryptoPanic (Public)',
@@ -113,7 +117,13 @@ function NewsFeed() {
       for (const source of newsSources) {
         try {
           console.log(`Trying ${source.name}...`)
-          const response = await fetch(source.url)
+          
+          // Use CORS proxy if needed
+          const fetchUrl = source.useProxy 
+            ? `https://api.allorigins.win/get?url=${encodeURIComponent(source.url)}`
+            : source.url
+          
+          const response = await fetch(fetchUrl)
           
           if (!response.ok) {
             throw new Error(`HTTP ${response.status}`)
@@ -124,7 +134,14 @@ function NewsFeed() {
           let data
           
           if (contentType && contentType.includes('application/json')) {
-            data = await response.json()
+            const responseData = await response.json()
+            
+            // Handle proxy response
+            if (source.useProxy && responseData.contents) {
+              data = JSON.parse(responseData.contents)
+            } else {
+              data = responseData
+            }
             
             // Check if this is a deprecation message
             if (data.message && data.message.includes('deprecated')) {
@@ -234,8 +251,8 @@ function NewsFeed() {
           marginBottom: 16,
           animation: 'pulse 2s infinite'
         }}>⏳</div>
-        <div style={{ color: '#fbbf24', fontSize: 18, fontWeight: 'bold' }}>Loading news...</div>
-        <div style={{ color: '#ffffff', fontSize: 14, marginTop: 8 }}>Fetching latest cryptocurrency news from multiple sources</div>
+        <div style={{ color: '#fbbf24', fontSize: 18, fontWeight: 'bold' }}>{t('loading')} {t('latestCryptoNews').toLowerCase()}...</div>
+        <div style={{ color: '#ffffff', fontSize: 14, marginTop: 8 }}>{t('fetchingCryptocurrencyPrices')}</div>
         <style jsx>{`
           @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -280,7 +297,7 @@ function NewsFeed() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Newspaper size={24} style={{ color: '#FFD600' }} />
             <div>
-              <h2 style={{ margin: 0, color: '#FFD600' }}>Live Crypto News</h2>
+              <h2 style={{ margin: 0, color: '#FFD600' }}>{t('liveNewsFeed')}</h2>
               <p style={{ margin: '4px 0 0 0', fontSize: 12, color: '#ffffff', opacity: 0.8 }}>
                 Powered by CoinStats, CryptoPanic & RSS feeds
               </p>
@@ -312,7 +329,7 @@ function NewsFeed() {
               }}
             >
               <RefreshCw size={14} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
-              {loading ? 'Loading...' : 'Refresh'}
+              {loading ? t('loading') : t('refresh')}
             </button>
           </div>
         </div>
